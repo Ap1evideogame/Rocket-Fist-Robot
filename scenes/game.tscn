@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://ccdsbs50pmvo5"]
+
+[ext_resource type="PackedScene" uid="uid://d3jdn2rohfiuh" path="res://scenes/areas/world.tscn" id="1_6ivar"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_flphv"]
+[ext_resource type="AudioStream" uid="uid://bri3cv2ktfutb" path="res://assets/audio/music/Dnb_or_Something_v1_looped.ogg" id="3_mlghi"]
+
+[node name="Node_Root" type="Node3D"]
+script = ExtResource("1_flphv")
+
+[node name="World" parent="." instance=ExtResource("1_6ivar")]
+
+[node name="Music_Global" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_mlghi")

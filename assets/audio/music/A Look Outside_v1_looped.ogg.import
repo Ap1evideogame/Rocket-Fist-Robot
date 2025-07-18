@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://pi4xdb6pr5rq"
+path="res://.godot/imported/A Look Outside_v1_looped.ogg-f9b5c32d182a600a2fa4301d1f391b67.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/music/A Look Outside_v1_looped.ogg"
+dest_files=["res://.godot/imported/A Look Outside_v1_looped.ogg-f9b5c32d182a600a2fa4301d1f391b67.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

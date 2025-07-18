@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cnco6xch8ine0"]
+
+[ext_resource type="Texture2D" uid="uid://ctei7mu4kx5wt" path="res://assets/textures/layered_grid_pattern_64.png" id="1_1wcd0"]
+
+[resource]
+albedo_texture = ExtResource("1_1wcd0")
+uv1_triplanar = true
+uv1_world_triplanar = true

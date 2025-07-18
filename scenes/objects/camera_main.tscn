@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://434pxphs6aw"]
+
+[ext_resource type="Script" path="res://scripts/camera_main.gd" id="1_xprw2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hddf8"]
+albedo_color = Color(0.0605303, 0.0605303, 0.0605303, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_tufbq"]
+material = SubResource("StandardMaterial3D_hddf8")
+flip_faces = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_y5dd2"]
+flip_faces = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_ny3mu"]
+size = Vector3(0.1, 0.15, 0.25)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a7nbi"]
+top_radius = 0.075
+bottom_radius = 0.05
+height = 0.05
+radial_segments = 16
+
+[node name="Camera" type="Camera3D"]
+doppler_tracking = 2
+current = true
+script = ExtResource("1_xprw2")
+
+[node name="RayCast3D_Walls" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+target_position = Vector3(0, 0, 1)
+collision_mask = 2
+
+[node name="start visualizer" type="MeshInstance3D" parent="RayCast3D_Walls"]
+visible = false
+mesh = SubResource("SphereMesh_tufbq")
+
+[node name="target visualizer" type="MeshInstance3D" parent="RayCast3D_Walls"]
+visible = false
+mesh = SubResource("SphereMesh_y5dd2")
+
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label_Scrap" type="Label" parent="GUI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Scrap: 0"
+
+[node name="Box" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.169096)
+gi_mode = 0
+mesh = SubResource("BoxMesh_ny3mu")
+
+[node name="Cylinder" type="MeshInstance3D" parent="Box"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.130357)
+gi_mode = 0
+mesh = SubResource("CylinderMesh_a7nbi")

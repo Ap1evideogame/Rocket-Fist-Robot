@@ -1,0 +1,190 @@
+[gd_scene load_steps=17 format=3 uid="uid://cp4hwkd7600cu"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_afs5f"]
+[ext_resource type="Texture2D" uid="uid://bvbp4cgfehwg0" path="res://assets/textures/Player_Face_default.png" id="2_dssqq"]
+[ext_resource type="AudioStream" uid="uid://dn25f7sp6xg2j" path="res://assets/audio/sfx/Anvil_Hit_Bitcrushed.wav" id="2_qwsdb"]
+[ext_resource type="Script" path="res://scripts/HitBox.gd" id="3_cxwf0"]
+[ext_resource type="AudioStream" uid="uid://by3ah4382ntm0" path="res://assets/audio/sfx/Explosion_Bitcrushed_Upwards.wav" id="3_qk0va"]
+[ext_resource type="AudioStream" uid="uid://cvhe60nb3dwe2" path="res://assets/audio/sfx/Jump_Bitcrushed.wav" id="4_b6eh6"]
+[ext_resource type="AudioStream" uid="uid://gs4j4r75ji0d" path="res://assets/audio/sfx/Rocketing_Mid.wav" id="5_yr0u0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j0mtf"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_k7ie2"]
+fractal_octaves = 6
+fractal_lacunarity = 2.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ikvf2"]
+seamless = true
+noise = SubResource("FastNoiseLite_k7ie2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0e0e8"]
+albedo_color = Color(0.280095, 0.475706, 0.45082, 1)
+normal_enabled = true
+normal_scale = 0.1
+normal_texture = SubResource("NoiseTexture2D_ikvf2")
+subsurf_scatter_strength = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_ih4be"]
+material = SubResource("StandardMaterial3D_0e0e8")
+size = Vector3(0.4, 0.4, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6wlxf"]
+size = Vector3(0.4, 0.4, 0.4)
+
+[sub_resource type="Animation" id="Animation_uow5i"]
+resource_name = "Animation_Fist_Right_Throw"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fist_Right/HitBox/CollisionShape3D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fist_Right")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.5, -0.125, -0.2, 0.075, 1, 0.5, -0.125, -2, 0.1, 1, 0.5, -0.125, -0.4, 0.2, 1, 0.5, -0.125, -0.2, 0.3, 1, 0.5, -0.125, -0.2)
+
+[sub_resource type="Animation" id="Animation_rb5xo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fist_Right/HitBox/CollisionShape3D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vq2vx"]
+_data = {
+"Animation_Fist_Right_Throw": SubResource("Animation_uow5i"),
+"RESET": SubResource("Animation_rb5xo")
+}
+
+[node name="Player" type="CharacterBody3D"]
+editor_description = "Do I need to tell you what this is?"
+collision_mask = 14
+script = ExtResource("1_afs5f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_j0mtf")
+
+[node name="Head" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+gi_mode = 0
+mesh = SubResource("BoxMesh_ih4be")
+skeleton = NodePath("")
+
+[node name="Face" type="Sprite3D" parent="CollisionShape3D/Head"]
+transform = Transform3D(-0.155, 0, 2.34044e-08, 0, 0.155, 0, -2.34044e-08, 0, -0.155, 0, 0, -0.21)
+modulate = Color(0.564706, 1, 0.607843, 1)
+shaded = true
+double_sided = false
+texture = ExtResource("2_dssqq")
+
+[node name="Body" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13, 0)
+gi_mode = 0
+mesh = SubResource("BoxMesh_ih4be")
+skeleton = NodePath("")
+
+[node name="Booster_Left" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.25, 0.5)
+gi_mode = 0
+mesh = SubResource("BoxMesh_ih4be")
+skeleton = NodePath("")
+
+[node name="Booster_Right" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.25, 0.5)
+gi_mode = 0
+mesh = SubResource("BoxMesh_ih4be")
+skeleton = NodePath("")
+
+[node name="Fist_Left" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.125, -0.2)
+gi_mode = 0
+mesh = SubResource("BoxMesh_ih4be")
+skeleton = NodePath("")
+
+[node name="Fist_Right" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.125, -0.2)
+gi_mode = 0
+mesh = SubResource("BoxMesh_ih4be")
+skeleton = NodePath("")
+
+[node name="HitBox" type="Area3D" parent="CollisionShape3D/Fist_Right"]
+script = ExtResource("3_cxwf0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CollisionShape3D/Fist_Right/HitBox"]
+shape = SubResource("BoxShape3D_6wlxf")
+disabled = true
+
+[node name="Foot_Left" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, -0.8, 0)
+gi_mode = 0
+mesh = SubResource("BoxMesh_ih4be")
+skeleton = NodePath("")
+
+[node name="Foot_Right" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, -0.8, 0)
+gi_mode = 0
+mesh = SubResource("BoxMesh_ih4be")
+skeleton = NodePath("")
+
+[node name="Animation_Player_Fist_Right_Throw" type="AnimationPlayer" parent="CollisionShape3D"]
+libraries = {
+"": SubResource("AnimationLibrary_vq2vx")
+}
+
+[node name="Sound_Landing" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_qwsdb")
+pitch_scale = 2.0
+bus = &"SFX"
+doppler_tracking = 2
+
+[node name="Sound_Boost" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.5)
+stream = ExtResource("3_qk0va")
+bus = &"SFX"
+doppler_tracking = 2
+
+[node name="Sound_Jump" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_b6eh6")
+volume_db = 2.0
+bus = &"SFX"
+doppler_tracking = 2
+
+[node name="Sound_Footstep" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_qwsdb")
+volume_db = -13.715
+max_polyphony = 8
+bus = &"SFX"
+doppler_tracking = 2
+
+[node name="Sound_Boosting" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_yr0u0")
+bus = &"SFX"
+doppler_tracking = 2
+
+[node name="Sound_punch" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_qk0va")
+volume_db = -6.0
+pitch_scale = 2.98
+bus = &"SFX"
+doppler_tracking = 2

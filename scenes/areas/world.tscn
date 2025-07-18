@@ -1,0 +1,314 @@
+[gd_scene load_steps=22 format=3 uid="uid://d3jdn2rohfiuh"]
+
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_ilsu3"]
+[ext_resource type="PackedScene" uid="uid://cp4hwkd7600cu" path="res://scenes/objects/player.tscn" id="2_owige"]
+[ext_resource type="PackedScene" uid="uid://cuumi5ugehae4" path="res://scenes/objects/camera_maint.tscn" id="3_0cddn"]
+[ext_resource type="PackedScene" uid="uid://wuq1ubo3fp8t" path="res://scenes/areas/level_geometry_test.tscn" id="3_nenlk"]
+[ext_resource type="AudioStream" uid="uid://dsu5oebpyrnua" path="res://assets/audio/music/A Badguy_looped_v1.ogg" id="4_o23s3"]
+[ext_resource type="PackedScene" uid="uid://b67s7fevagenh" path="res://scenes/areas/level_geometry_test_tower.tscn" id="5_cya21"]
+[ext_resource type="PackedScene" uid="uid://b8u4fgclvftu3" path="res://scenes/objects/collectable_scrap.tscn" id="6_vnrsq"]
+[ext_resource type="VoxelGIData" uid="uid://1w8sb5f8vvwx" path="res://lighting/world.VoxelGI_data.res" id="7_rymxd"]
+[ext_resource type="LightmapGIData" uid="uid://dhn545ido1y2v" path="res://lighting/world.lmbake" id="7_xjx13"]
+[ext_resource type="AudioStream" uid="uid://bri3cv2ktfutb" path="res://assets/audio/music/Dnb_or_Something_v1_looped.ogg" id="9_5y3rw"]
+[ext_resource type="Material" uid="uid://cnco6xch8ine0" path="res://assets/materials/material_debug_grid_layered.tres" id="10_nvqap"]
+[ext_resource type="PackedScene" uid="uid://bqrib04g8uema" path="res://scenes/objects/dispenser_robot.tscn" id="12_u6njm"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_16xly"]
+sky_top_color = Color(0.0235294, 0, 0.0745098, 1)
+sky_horizon_color = Color(0.27451, 0.701961, 0.917647, 1)
+ground_bottom_color = Color(1, 0.94902, 0.937255, 1)
+ground_horizon_color = Color(0.27451, 0.701961, 0.917647, 1)
+ground_curve = 0.422242
+sun_curve = 1e-05
+
+[sub_resource type="Sky" id="Sky_l6rrd"]
+sky_material = SubResource("ProceduralSkyMaterial_16xly")
+
+[sub_resource type="Environment" id="Environment_gnwlk"]
+background_mode = 2
+sky = SubResource("Sky_l6rrd")
+ssao_enabled = true
+sdfgi_cascades = 6
+sdfgi_max_distance = 819.2
+glow_enabled = true
+glow_levels/2 = 1.0
+glow_bloom = 0.2
+glow_blend_mode = 4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ju5sy"]
+radius = 250.0
+height = 1400.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_4mwi7"]
+material = ExtResource("10_nvqap")
+size = Vector3(300, 1, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j0ods"]
+size = Vector3(300, 1, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rl4an"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_10hvx"]
+lightmap_size_hint = Vector2i(14, 31)
+add_uv2 = true
+size = Vector3(1, 2, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_2lg01"]
+material = ExtResource("10_nvqap")
+inner_radius = 4.5
+outer_radius = 5.0
+rings = 8
+ring_segments = 3
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_ilsu3")
+
+[node name="Camera_maint" parent="." instance=ExtResource("3_0cddn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.8833, -0.0449493, 3.13398)
+
+[node name="Player" parent="." instance=ExtResource("2_owige")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1, 0)
+collision_mask = 30
+
+[node name="Sky_Environment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gnwlk")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.999848, -0.0174524, -1.07301e-09, -0.000304586, -0.0174497, -0.999848, 0.0174497, 0.999695, -0.0174524, 0, 0, 0)
+light_color = Color(1, 0.980392, 0.976471, 1)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="Level_Geometry_Test" parent="." instance=ExtResource("3_nenlk")]
+
+[node name="Level_Geometry_Test_Tower" parent="." instance=ExtResource("5_cya21")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -875.986, 3.594, 0)
+
+[node name="Zone_Antigravity" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -875.085, 0, 0)
+collision_layer = 16
+collision_mask = 0
+gravity_space_override = 3
+gravity = 1.396
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone_Antigravity"]
+shape = SubResource("CapsuleShape3D_ju5sy")
+
+[node name="Bridge" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -650.788, -9.47556, 0)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Bridge"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_4mwi7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bridge"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_j0ods")
+
+[node name="Arcade_Cabinet" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 298, 0, -343)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcade_Cabinet"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_rl4an")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arcade_Cabinet"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_10hvx")
+
+[node name="Music_ABadguyLooped" type="AudioStreamPlayer3D" parent="Arcade_Cabinet"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+stream = ExtResource("4_o23s3")
+attenuation_model = 1
+autoplay = true
+max_distance = 100.0
+
+[node name="LightmapGI" type="LightmapGI" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+quality = 2
+light_data = ExtResource("7_xjx13")
+
+[node name="VoxelGI" type="VoxelGI" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3501, -53.5616, 57.8891)
+size = Vector3(1084.1, 280.862, 911.487)
+data = ExtResource("7_rymxd")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -144, 6, -28)
+light_color = Color(1, 0.980392, 0.901961, 1)
+light_energy = 16.0
+light_bake_mode = 1
+shadow_enabled = true
+omni_range = 50.0
+omni_attenuation = 0.203063
+
+[node name="Container_Collectable_Scrap" type="Node3D" parent="."]
+
+[node name="Collectable_Scrap" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -153.77, 7.43127, 35.3396)
+
+[node name="Collectable_Scrap2" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -158.685, 6.781, 20.5452)
+
+[node name="Collectable_Scrap3" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -157.909, 6.781, 19.601)
+
+[node name="Collectable_Scrap4" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -156.069, 6.9086, 21.2934)
+
+[node name="Collectable_Scrap5" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.9152, -2, 0.524981)
+
+[node name="Collectable_Scrap6" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.2906, -2, 3.03183)
+
+[node name="Collectable_Scrap7" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.1577, -2, 1.54084)
+
+[node name="Collectable_Scrap8" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.7511, -2, 2.31725)
+
+[node name="Collectable_Scrap9" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.3675, -2, 1.54461)
+
+[node name="Collectable_Scrap10" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.4821, -2, 1.57723)
+
+[node name="Collectable_Scrap11" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.6581, -2, 1.58012)
+
+[node name="Collectable_Scrap12" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4884, -2, 1.63596)
+
+[node name="Collectable_Scrap13" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.766, -1.43051e-05, -342.7)
+
+[node name="Collectable_Scrap14" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 300.257, -1.57356e-05, -342.237)
+
+[node name="Collectable_Scrap15" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 300.288, -1.52588e-05, -343.276)
+
+[node name="Collectable_Scrap16" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 300.806, -1.62125e-05, -342.798)
+
+[node name="Collectable_Scrap17" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.235, -1.62125e-05, -344.243)
+
+[node name="Collectable_Scrap18" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 296.273, -1.52588e-05, -342.77)
+
+[node name="Collectable_Scrap19" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 295.758, -1.4782e-05, -342.27)
+
+[node name="Collectable_Scrap20" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 295.265, -1.4782e-05, -342.744)
+
+[node name="Collectable_Scrap21" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 295.74, -1.62125e-05, -343.308)
+
+[node name="Collectable_Scrap22" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -776.607, 503.594, 0.074769)
+
+[node name="Collectable_Scrap23" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -776.881, 24.8286, 5.53272)
+
+[node name="Collectable_Scrap24" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -776.495, 24.7252, 6.98357)
+
+[node name="Collectable_Scrap25" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -775.415, 24.4358, 6.07756)
+
+[node name="Collectable_Scrap26" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.9316, -2, -21.1232)
+
+[node name="Collectable_Scrap27" parent="Container_Collectable_Scrap" instance=ExtResource("6_vnrsq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.7601, -2, -20.3187)
+
+[node name="Container_Music" type="Node3D" parent="."]
+
+[node name="Music_Dnb" type="AudioStreamPlayer3D" parent="Container_Music"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -140.065, 0, -3.58491)
+stream = ExtResource("9_5y3rw")
+attenuation_model = 3
+autoplay = true
+max_distance = 200.0
+panning_strength = 0.0
+attenuation_filter_cutoff_hz = 20500.0
+
+[node name="Label3D_Instructions" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+visibility_range_end = 30.0
+billboard = 2
+text = "HOW TO PLAY:	
+
+Look: Mouse / Right Stick
+Horizontal Movement: WASD / Left Stick
+Upward Boost: Space / Right Bumper
+Horizontal Boost: Shift / Left Trigger
+Downward Boost: Ctrl / Right Trigger
+Attack: Left Click / Left Bumper
+
+Respawn: Backspace
+
+Debug: ~
+Debug Restart: R
+
+Exit: Escape"
+
+[node name="Finder Ring" type="MeshInstance3D" parent="Label3D_Instructions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+mesh = SubResource("TorusMesh_2lg01")
+
+[node name="Label3D_Instructions2" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.6147, 0, 6.81638)
+visibility_range_end = 30.0
+billboard = 2
+text = "This is a test environment to play around with.
+Try out your moves, and explore!"
+
+[node name="Dispenser_Robot" parent="." instance=ExtResource("12_u6njm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, -2, -12)
+
+[node name="Room_Dispenser" type="CSGCombiner3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -12)
+use_collision = true
+collision_layer = 2
+collision_mask = 0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Room_Dispenser"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 4)
+size = Vector3(10, 4, 1)
+material = ExtResource("10_nvqap")
+
+[node name="CSGBox3D2_Bigger" type="CSGBox3D" parent="Room_Dispenser"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.5, 1.5, -7)
+size = Vector3(73, 8, 7)
+material = ExtResource("10_nvqap")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Room_Dispenser"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.5, 0)
+size = Vector3(1, 6, 9)
+material = ExtResource("10_nvqap")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Room_Dispenser"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, -1.5, 2)
+size = Vector3(1, 2, 5)
+material = ExtResource("10_nvqap")
+
+[node name="CSGBox3D5_Hole" type="CSGBox3D" parent="Room_Dispenser"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.75, -7)
+operation = 2
+size = Vector3(8, 6, 8)
+material = ExtResource("10_nvqap")
+
+[node name="CSGBox3D5_Hole_Ramp" type="CSGBox3D" parent="Room_Dispenser"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -54.375, 4.597, -7)
+operation = 2
+size = Vector3(30, 6, 3)
+material = ExtResource("10_nvqap")

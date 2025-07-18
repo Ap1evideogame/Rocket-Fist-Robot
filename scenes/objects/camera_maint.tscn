@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://cuumi5ugehae4"]
+
+[ext_resource type="PackedScene" uid="uid://434pxphs6aw" path="res://scenes/objects/camera_main.tscn" id="1_2f7ih"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_5fs3j"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_60tpn"]
+size = Vector3(4.49805, 3.97461, 1.02986)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bmtcg"]
+
+[node name="Camera" type="Camera3D"]
+current = true
+
+[node name="Monitor" type="Sprite3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, -1.408)
+texture = SubResource("ViewportTexture_5fs3j")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+audio_listener_enable_3d = true
+size = Vector2i(1440, 1080)
+render_target_clear_mode = 1
+
+[node name="Camera" parent="SubViewport" instance=ExtResource("1_2f7ih")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.91451)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_60tpn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(4.5, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_bmtcg")

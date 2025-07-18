@@ -1,0 +1,24 @@
+[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://ba78b6aliisq0"]
+
+[sub_resource type="AudioEffectDelay" id="AudioEffectDelay_2kc1b"]
+resource_name = "Delay"
+dry = 0.7
+tap1_active = false
+tap1_delay_ms = 333.0
+tap1_level_db = -11.14
+tap2_active = false
+tap2_delay_ms = 666.0
+tap2_level_db = -18.28
+feedback_active = true
+feedback_delay_ms = 300.0
+feedback_level_db = -4.0
+
+[resource]
+bus/1/name = &"SFX"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("AudioEffectDelay_2kc1b")
+bus/1/effect/0/enabled = true

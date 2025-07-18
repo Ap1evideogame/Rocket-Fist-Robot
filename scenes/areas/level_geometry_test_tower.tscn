@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://b67s7fevagenh"]
+
+[ext_resource type="Material" uid="uid://cnco6xch8ine0" path="res://assets/materials/material_debug_grid_layered.tres" id="1_d6xyy"]
+[ext_resource type="AudioStream" uid="uid://pi4xdb6pr5rq" path="res://assets/audio/music/A Look Outside_v1_looped.ogg" id="2_0kijq"]
+[ext_resource type="Script" path="res://scripts/Music_ALookOutside.gd" id="3_enu0q"]
+
+[node name="Level_Geometry_Test_Tower" type="CSGCombiner3D"]
+use_collision = true
+collision_layer = 2
+collision_mask = 0
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+radius = 100.0
+height = 1000.0
+material = ExtResource("1_d6xyy")
+
+[node name="Music_ALookOutside" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 500, 0)
+stream = ExtResource("2_0kijq")
+attenuation_model = 3
+autoplay = true
+max_distance = 312.08
+panning_strength = 0.0
+script = ExtResource("3_enu0q")

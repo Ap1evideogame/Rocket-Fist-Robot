@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://b8u4fgclvftu3"]
+
+[ext_resource type="Script" path="res://scripts/collectable_scrap.gd" id="1_bj8hc"]
+[ext_resource type="AudioStream" uid="uid://cvhe60nb3dwe2" path="res://assets/audio/sfx/Jump_Bitcrushed.wav" id="2_xnp1q"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hwdjp"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.2
+radial_segments = 6
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_u1aqe"]
+radius = 0.3
+
+[node name="Collectable_Scrap" type="Node3D"]
+script = ExtResource("1_bj8hc")
+
+[node name="Collision_Detector" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+collision_layer = 4
+
+[node name="Mesh" type="MeshInstance3D" parent="Collision_Detector"]
+mesh = SubResource("CylinderMesh_hwdjp")
+skeleton = NodePath("../..")
+
+[node name="Collision" type="CollisionShape3D" parent="Collision_Detector"]
+shape = SubResource("SphereShape3D_u1aqe")
+
+[node name="Sound_Collect" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_xnp1q")
+bus = &"SFX"
+
+[connection signal="body_entered" from="Collision_Detector" to="." method="_on_area_3d_body_entered"]

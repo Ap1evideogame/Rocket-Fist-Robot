@@ -1,0 +1,1 @@
+Compile this project with Godot 4.2.2.

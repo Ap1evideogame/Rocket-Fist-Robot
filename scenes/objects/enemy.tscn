@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=3 uid="uid://dop1sj3gifenr"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_3kxoo"]
+[ext_resource type="Script" path="res://scripts/HurtBox.gd" id="2_u06f7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x8byc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ak8iw"]
+albedo_color = Color(0.624237, 0.414023, 0.407695, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_btefx"]
+material = SubResource("StandardMaterial3D_ak8iw")
+size = Vector3(0.4, 0.4, 0.4)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_etsso"]
+radius = 0.75
+
+[node name="Enemy" type="CharacterBody3D"]
+collision_layer = 8
+collision_mask = 11
+script = ExtResource("1_3kxoo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_x8byc")
+
+[node name="Foot_Right" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.394026, -0.8, 0.107522)
+mesh = SubResource("BoxMesh_btefx")
+skeleton = NodePath("../..")
+
+[node name="Foot_Left" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.405974, -0.8, 0.107522)
+mesh = SubResource("BoxMesh_btefx")
+skeleton = NodePath("../..")
+
+[node name="Body" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.00597387, -0.181385, 0.192478)
+mesh = SubResource("BoxMesh_btefx")
+skeleton = NodePath("../..")
+
+[node name="Head" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.00597387, 0.485853, 0.192478)
+mesh = SubResource("BoxMesh_btefx")
+skeleton = NodePath("../..")
+
+[node name="Hand_Left" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(-1, 6.56494e-08, -5.77313e-08, 0, 0.660369, 0.750942, 8.74228e-08, 0.750942, -0.660369, -0.455974, -0.182074, -0.192666)
+mesh = SubResource("BoxMesh_btefx")
+skeleton = NodePath("../..")
+
+[node name="Arm_Left" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(-1, 6.56494e-08, -5.77313e-08, 0, 0.660369, 0.750942, 8.74228e-08, 0.750942, -0.660369, -0.455974, 0.0820737, 0.107711)
+mesh = SubResource("BoxMesh_btefx")
+skeleton = NodePath("../..")
+
+[node name="Hand_Right" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(-1, 6.56494e-08, -5.77313e-08, 0, 0.660369, 0.750942, 8.74228e-08, 0.750942, -0.660369, 0.444026, -0.182074, -0.192666)
+mesh = SubResource("BoxMesh_btefx")
+skeleton = NodePath("../..")
+
+[node name="Hand_Right2" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(-1, 6.56494e-08, -5.77313e-08, 0, 0.660369, 0.750942, 8.74228e-08, 0.750942, -0.660369, 0.444026, 0.0820737, 0.107711)
+mesh = SubResource("BoxMesh_btefx")
+skeleton = NodePath("../..")
+
+[node name="HurtBox" type="Area3D" parent="."]
+script = ExtResource("2_u06f7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_etsso")
